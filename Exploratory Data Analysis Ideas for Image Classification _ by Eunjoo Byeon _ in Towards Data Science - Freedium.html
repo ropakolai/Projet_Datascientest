@@ -1,0 +1,548 @@
+
+<!-- saved from url=(0121)https://freedium.cfd/https://towardsdatascience.com/exploratory-data-analysis-ideas-for-image-classification-d3fc6bbfb2d2 -->
+<html lang="en" class="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Exploratory Data Analysis Ideas for Image Classification | by Eunjoo Byeon | in Towards Data Science - Freedium</title>
+        
+        <meta name="description" content="Visualizing Patterns of Image Data">
+        <meta name="keywords" content="medium, paywall, medium.com, paywall breakthrough">
+        <script src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/saved_resource"></script>
+        <script src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/saved_resource(1)"></script>
+        <link href="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/unbound.css" rel="stylesheet">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://freedium.cfd/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://freedium.cfd/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://freedium.cfd/favicon-16x16.png">
+        <link rel="manifest" href="https://freedium.cfd/site.webmanifest">
+        <link rel="mask-icon" href="https://freedium.cfd/safari-pinned-tab.svg" color="#00aba9">
+        <meta name="msapplication-TileColor" content="#00aba9">
+        <meta name="theme-color" content="#ffffff">
+        <script src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/highlight.min.js"></script>
+        <link rel="stylesheet" href="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/atom-one-dark.min.css">
+        <script src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/lazyload.min.js"></script>
+        <script src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/lightense.min.js"></script>
+        <script>
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.add('dark');
+  //document.getElementById('darkIcon').classList.remove('hidden');
+  //document.getElementById('lightIcon').classList.add('hidden')
+} else {
+  document.documentElement.classList.remove('dark')
+  //document.getElementById('lightIcon').classList.remove('hidden');
+  //document.getElementById('darkIcon').classList.add('hidden');
+}
+        </script>
+        <style>
+        .shadow-lf {
+            box-shadow: inset 3px 0 0 0 rgb(209 207 239 / var(--tw-bg-opacity));
+        }   
+        </style>
+        <style>
+    .notification-container {
+      display: none;
+      position: fixed;
+      top: 20px;
+      padding: 2%;
+      z-index: 1000;
+    }
+
+    .notification-card {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-align: center;
+    }
+        </style>
+        <script>
+    window._resizeIframe = function (iframeData)
+    {
+            iframeData.iframe.height = iframeData.height
+            _resizeIframeWidth()
+    }
+
+    function _resizeIframeWidth(){ var element = document.querySelector(".main-content");
+    var width = element.offsetWidth;
+
+    iframes = document.getElementsByTagName("iframe");
+    for (var i = 0; i < iframes.length; i++) {
+            iframes[i].width = width
+    }
+
+    window.onresize = _resizeIframeWidth
+ }
+        </script>
+        <!--
+        <script>
+                window.onload = function() {
+    window.parent.postMessage({
+        type: "URL_UPDATE",
+        url: window.location.href
+    }, "*");
+}
+                </script>
+                -->
+    <style>/* ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-0{bottom:0px}.bottom-4{bottom:1rem}.left-4{left:1rem}.right-0{right:0px}.top-0{top:0px}.z-20{z-index:20}.z-10{z-index:10}.m-1{margin:0.25rem}.m-1\.5{margin:0.375rem}.m-2{margin:0.5rem}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-8{margin-top:2rem;margin-bottom:2rem}.mr-3{margin-right:0.75rem}.mt-0{margin-top:0px}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-5{margin-top:1.25rem}.mt-7{margin-top:1.75rem}.mt-8{margin-top:2rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mt-4{margin-top:1rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.hidden{display:none}.h-1{height:0.25rem}.h-11{height:2.75rem}.h-3{height:0.75rem}.h-4{height:1rem}.h-40{height:10rem}.h-full{height:100%}.max-h-screen{max-height:100vh}.w-11{width:2.75rem}.w-3{width:0.75rem}.w-4{width:1rem}.w-full{width:100%}.w-72{width:18rem}.w-11\/12{width:91.666667%}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.flex-grow{flex-grow:1}.appearance-none{-webkit-appearance:none;appearance:none}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.space-x-1 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.25rem * var(--tw-space-x-reverse));margin-left:calc(0.25rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.break-normal{overflow-wrap:normal;word-break:normal}.break-words{overflow-wrap:break-word}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-2{border-width:2px}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.border-gray-600{--tw-border-opacity:1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.border-white{--tw-border-opacity:1;border-color:rgb(255 255 255 / var(--tw-border-opacity))}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity))}.bg-blue-800{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-gray-300{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity))}.bg-gray-700{--tw-bg-opacity:1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity))}.bg-orange-500{--tw-bg-opacity:1;background-color:rgb(249 115 22 / var(--tw-bg-opacity))}.bg-red-400{--tw-bg-opacity:1;background-color:rgb(248 113 113 / var(--tw-bg-opacity))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-green-100{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity))}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity:1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-opacity-50{--tw-bg-opacity:0.5}.bg-cover{background-size:cover}.bg-center{background-position:center}.fill-current{fill:currentColor}.p-4{padding:1rem}.p-2{padding:0.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-2{padding-bottom:0.5rem}.pb-3{padding-bottom:0.75rem}.pb-5{padding-bottom:1.25rem}.pl-4{padding-left:1rem}.pr-4{padding-right:1rem}.pt-1{padding-top:0.25rem}.pt-12{padding-top:3rem}.pt-20{padding-top:5rem}.pt-6{padding-top:1.5rem}.pt-5{padding-top:1.25rem}.pt-8{padding-top:2rem}.text-left{text-align:left}.font-sans{font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-8{line-height:2rem}.leading-normal{line-height:1.5}.leading-tight{line-height:1.25}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-green-500{--tw-text-opacity:1;color:rgb(34 197 94 / var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-yellow-500{--tw-text-opacity:1;color:rgb(234 179 8 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.no-underline{-webkit-text-decoration-line:none;text-decoration-line:none}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:border-green-500:hover{--tw-border-opacity:1;border-color:rgb(34 197 94 / var(--tw-border-opacity))}.hover\:bg-blue-600:hover{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity))}.hover\:bg-blue-900:hover{--tw-bg-opacity:1;background-color:rgb(30 58 138 / var(--tw-bg-opacity))}.hover\:bg-gray-400:hover{--tw-bg-opacity:1;background-color:rgb(156 163 175 / var(--tw-bg-opacity))}.hover\:bg-gray-600:hover{--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity))}.hover\:bg-orange-700:hover{--tw-bg-opacity:1;background-color:rgb(194 65 12 / var(--tw-bg-opacity))}.hover\:bg-red-500:hover{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.hover\:bg-red-600:hover{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity))}.hover\:bg-gray-700:hover{--tw-bg-opacity:1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.hover\:no-underline:hover{-webkit-text-decoration-line:none;text-decoration-line:none}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity))}@media (min-width: 768px){.md\:inline{display:inline}.md\:max-w-3xl{max-width:48rem}.md\:max-w-4xl{max-width:56rem}.md\:max-w-xl{max-width:36rem}.md\:px-6{padding-left:1.5rem;padding-right:1.5rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-4xl{font-size:2.25rem;line-height:2.5rem}.md\:text-sm{font-size:0.875rem;line-height:1.25rem}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\:mt-0{margin-top:0px}.lg\:block{display:block}.lg\:flex{display:flex}.lg\:hidden{display:none}.lg\:w-auto{width:auto}.lg\:items-center{align-items:center}}@media (prefers-color-scheme: dark){.dark\:bg-gray-600{--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity))}.dark\:bg-gray-800{--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}.dark\:bg-green-700{--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity))}.dark\:bg-green-800{--tw-bg-opacity:1;background-color:rgb(22 101 52 / var(--tw-bg-opacity))}.dark\:text-gray-100{--tw-text-opacity:1;color:rgb(243 244 246 / var(--tw-text-opacity))}.dark\:text-gray-200{--tw-text-opacity:1;color:rgb(229 231 235 / var(--tw-text-opacity))}.dark\:text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.dark\:text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity))}.dark\:hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}}</style><style>/* ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]{display:none}[type='text'],input:where(:not([type])),[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='datetime-local'],[type='month'],[type='search'],[type='tel'],[type='time'],[type='week'],[multiple],textarea,select{-webkit-appearance:none;appearance:none;background-color:#fff;border-color:#6b7280;border-width:1px;border-radius:0px;padding-top:0.5rem;padding-right:0.75rem;padding-bottom:0.5rem;padding-left:0.75rem;font-size:1rem;line-height:1.5rem;--tw-shadow:0 0 #0000;}[type='text']:focus, input:where(:not([type])):focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus{outline:2px solid transparent;outline-offset:2px;--tw-ring-inset:var(--tw-empty,/*!*/ /*!*/);--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#2563eb;--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);border-color:#2563eb}input::placeholder,textarea::placeholder{color:#6b7280;opacity:1}::-webkit-datetime-edit-fields-wrapper{padding:0}::-webkit-date-and-time-value{min-height:1.5em;text-align:inherit}::-webkit-datetime-edit{display:inline-flex}::-webkit-datetime-edit,::-webkit-datetime-edit-year-field,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute-field,::-webkit-datetime-edit-second-field,::-webkit-datetime-edit-millisecond-field,::-webkit-datetime-edit-meridiem-field{padding-top:0;padding-bottom:0}select{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");background-position:right 0.5rem center;background-repeat:no-repeat;background-size:1.5em 1.5em;padding-right:2.5rem;print-color-adjust:exact}[multiple],[size]:where(select:not([size="1"])){background-image:initial;background-position:initial;background-repeat:unset;background-size:initial;padding-right:0.75rem;print-color-adjust:unset}[type='checkbox'],[type='radio']{-webkit-appearance:none;appearance:none;padding:0;print-color-adjust:exact;display:inline-block;vertical-align:middle;background-origin:border-box;-webkit-user-select:none;user-select:none;flex-shrink:0;height:1rem;width:1rem;color:#2563eb;background-color:#fff;border-color:#6b7280;border-width:1px;--tw-shadow:0 0 #0000}[type='checkbox']{border-radius:0px}[type='radio']{border-radius:100%}[type='checkbox']:focus,[type='radio']:focus{outline:2px solid transparent;outline-offset:2px;--tw-ring-inset:var(--tw-empty,/*!*/ /*!*/);--tw-ring-offset-width:2px;--tw-ring-offset-color:#fff;--tw-ring-color:#2563eb;--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow)}[type='checkbox']:checked,[type='radio']:checked{border-color:transparent;background-color:currentColor;background-size:100% 100%;background-position:center;background-repeat:no-repeat}[type='checkbox']:checked{background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");}@media (forced-colors: active) {[type='checkbox']:checked{-webkit-appearance:auto;appearance:auto}}[type='radio']:checked{background-image:url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3'/%3e%3c/svg%3e");}@media (forced-colors: active) {[type='radio']:checked{-webkit-appearance:auto;appearance:auto}}[type='checkbox']:checked:hover,[type='checkbox']:checked:focus,[type='radio']:checked:hover,[type='radio']:checked:focus{border-color:transparent;background-color:currentColor}[type='checkbox']:indeterminate{background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'%3e%3cpath stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M4 8h8'/%3e%3c/svg%3e");border-color:transparent;background-color:currentColor;background-size:100% 100%;background-position:center;background-repeat:no-repeat;}@media (forced-colors: active) {[type='checkbox']:indeterminate{-webkit-appearance:auto;appearance:auto}}[type='checkbox']:indeterminate:hover,[type='checkbox']:indeterminate:focus{border-color:transparent;background-color:currentColor}[type='file']{background:unset;border-color:inherit;border-width:0;border-radius:0;padding:0;font-size:unset;line-height:inherit}[type='file']:focus{outline:1px solid ButtonText;outline:1px auto -webkit-focus-ring-color}*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-0{bottom:0px}.bottom-4{bottom:1rem}.left-4{left:1rem}.right-0{right:0px}.top-0{top:0px}.z-10{z-index:10}.z-20{z-index:20}.m-1{margin:0.25rem}.m-1\.5{margin:0.375rem}.m-2{margin:0.5rem}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-auto{margin-left:auto;margin-right:auto}.my-8{margin-top:2rem;margin-bottom:2rem}.mb-2{margin-bottom:0.5rem}.mb-4{margin-bottom:1rem}.mr-3{margin-right:0.75rem}.mt-0{margin-top:0px}.mt-1{margin-top:0.25rem}.mt-2{margin-top:0.5rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-7{margin-top:1.75rem}.mt-8{margin-top:2rem}.block{display:block}.inline-block{display:inline-block}.flex{display:flex}.hidden{display:none}.h-1{height:0.25rem}.h-11{height:2.75rem}.h-3{height:0.75rem}.h-4{height:1rem}.h-40{height:10rem}.h-full{height:100%}.max-h-screen{max-height:100vh}.w-11{width:2.75rem}.w-11\/12{width:91.666667%}.w-3{width:0.75rem}.w-4{width:1rem}.w-72{width:18rem}.w-full{width:100%}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.flex-grow{flex-grow:1}.appearance-none{-webkit-appearance:none;appearance:none}.flex-row{flex-direction:row}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-2{gap:0.5rem}.space-x-1 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.25rem * var(--tw-space-x-reverse));margin-left:calc(0.25rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.overflow-hidden{overflow:hidden}.overflow-y-auto{overflow-y:auto}.break-normal{overflow-wrap:normal;word-break:normal}.break-words{overflow-wrap:break-word}.rounded{border-radius:0.25rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.border{border-width:1px}.border-2{border-width:2px}.border-gray-300{--tw-border-opacity:1;border-color:rgb(209 213 219 / var(--tw-border-opacity))}.border-gray-600{--tw-border-opacity:1;border-color:rgb(75 85 99 / var(--tw-border-opacity))}.border-white{--tw-border-opacity:1;border-color:rgb(255 255 255 / var(--tw-border-opacity))}.bg-black{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity))}.bg-blue-500{--tw-bg-opacity:1;background-color:rgb(59 130 246 / var(--tw-bg-opacity))}.bg-blue-800{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity))}.bg-gray-100{--tw-bg-opacity:1;background-color:rgb(243 244 246 / var(--tw-bg-opacity))}.bg-gray-300{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity))}.bg-gray-500{--tw-bg-opacity:1;background-color:rgb(107 114 128 / var(--tw-bg-opacity))}.bg-gray-700{--tw-bg-opacity:1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.bg-green-100{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity))}.bg-orange-500{--tw-bg-opacity:1;background-color:rgb(249 115 22 / var(--tw-bg-opacity))}.bg-red-400{--tw-bg-opacity:1;background-color:rgb(248 113 113 / var(--tw-bg-opacity))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity))}.bg-opacity-50{--tw-bg-opacity:0.5}.bg-cover{background-size:cover}.bg-center{background-position:center}.fill-current{fill:currentColor}.p-2{padding:0.5rem}.p-4{padding:1rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-2{padding-bottom:0.5rem}.pb-3{padding-bottom:0.75rem}.pb-5{padding-bottom:1.25rem}.pl-4{padding-left:1rem}.pr-4{padding-right:1rem}.pt-1{padding-top:0.25rem}.pt-12{padding-top:3rem}.pt-20{padding-top:5rem}.pt-5{padding-top:1.25rem}.pt-6{padding-top:1.5rem}.pt-8{padding-top:2rem}.text-left{text-align:left}.font-sans{font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-8{line-height:2rem}.leading-normal{line-height:1.5}.leading-tight{line-height:1.25}.text-black{--tw-text-opacity:1;color:rgb(0 0 0 / var(--tw-text-opacity))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity))}.text-gray-900{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.text-green-500{--tw-text-opacity:1;color:rgb(34 197 94 / var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}.text-yellow-500{--tw-text-opacity:1;color:rgb(234 179 8 / var(--tw-text-opacity))}.no-underline{-webkit-text-decoration-line:none;text-decoration-line:none}.shadow{--tw-shadow:0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:border-green-500:hover{--tw-border-opacity:1;border-color:rgb(34 197 94 / var(--tw-border-opacity))}.hover\:bg-blue-600:hover{--tw-bg-opacity:1;background-color:rgb(37 99 235 / var(--tw-bg-opacity))}.hover\:bg-blue-700:hover{--tw-bg-opacity:1;background-color:rgb(29 78 216 / var(--tw-bg-opacity))}.hover\:bg-blue-900:hover{--tw-bg-opacity:1;background-color:rgb(30 58 138 / var(--tw-bg-opacity))}.hover\:bg-gray-400:hover{--tw-bg-opacity:1;background-color:rgb(156 163 175 / var(--tw-bg-opacity))}.hover\:bg-gray-600:hover{--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity))}.hover\:bg-gray-700:hover{--tw-bg-opacity:1;background-color:rgb(55 65 81 / var(--tw-bg-opacity))}.hover\:bg-orange-700:hover{--tw-bg-opacity:1;background-color:rgb(194 65 12 / var(--tw-bg-opacity))}.hover\:bg-red-500:hover{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity))}.hover\:bg-red-600:hover{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity))}.hover\:text-gray-900:hover{--tw-text-opacity:1;color:rgb(17 24 39 / var(--tw-text-opacity))}.hover\:underline:hover{-webkit-text-decoration-line:underline;text-decoration-line:underline}.hover\:no-underline:hover{-webkit-text-decoration-line:none;text-decoration-line:none}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-blue-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(59 130 246 / var(--tw-ring-opacity))}:is(.dark .dark\:bg-gray-600){--tw-bg-opacity:1;background-color:rgb(75 85 99 / var(--tw-bg-opacity))}:is(.dark .dark\:bg-gray-800){--tw-bg-opacity:1;background-color:rgb(31 41 55 / var(--tw-bg-opacity))}:is(.dark .dark\:bg-green-700){--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity))}:is(.dark .dark\:bg-green-800){--tw-bg-opacity:1;background-color:rgb(22 101 52 / var(--tw-bg-opacity))}:is(.dark .dark\:text-gray-100){--tw-text-opacity:1;color:rgb(243 244 246 / var(--tw-text-opacity))}:is(.dark .dark\:text-gray-200){--tw-text-opacity:1;color:rgb(229 231 235 / var(--tw-text-opacity))}:is(.dark .dark\:text-white){--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}:is(.dark .dark\:text-yellow-400){--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity))}:is(.dark .dark\:hover\:text-white:hover){--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity))}@media (min-width: 768px){.md\:inline{display:inline}.md\:max-w-3xl{max-width:48rem}.md\:max-w-4xl{max-width:56rem}.md\:max-w-xl{max-width:36rem}.md\:px-6{padding-left:1.5rem;padding-right:1.5rem}.md\:text-2xl{font-size:1.5rem;line-height:2rem}.md\:text-4xl{font-size:2.25rem;line-height:2.5rem}.md\:text-sm{font-size:0.875rem;line-height:1.25rem}.md\:text-xl{font-size:1.25rem;line-height:1.75rem}}@media (min-width: 1024px){.lg\:mt-0{margin-top:0px}.lg\:block{display:block}.lg\:flex{display:flex}.lg\:hidden{display:none}.lg\:w-auto{width:auto}.lg\:items-center{align-items:center}}</style><style id="lightense-images-css">
+:root {
+  --lightense-z-index: 999999;
+  --lightense-backdrop: var(--bg-color-80, rgba(255, 255, 255, .98));
+  --lightense-duration: 300ms;
+  --lightense-timing-func: cubic-bezier(.2, 0, .1, 1);
+}
+
+.lightense-backdrop {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  z-index: calc(var(--lightense-z-index) - 1);
+  padding: 0;
+  margin: 0;
+  transition: opacity var(--lightense-duration) ease;
+  cursor: zoom-out;
+  opacity: 0;
+  background-color: var(--lightense-backdrop);
+  visibility: hidden;
+}
+
+@supports (-webkit-backdrop-filter: blur(30px)) {
+  .lightense-backdrop {
+    background-color: var(--lightense-backdrop);
+    -webkit-backdrop-filter: blur(30px);
+  }
+}
+
+@supports (backdrop-filter: blur(30px)) {
+  .lightense-backdrop {
+    background-color: var(--lightense-backdrop);
+    backdrop-filter: blur(30px);
+  }
+}
+
+.lightense-wrap {
+  position: relative;
+  transition: transform var(--lightense-duration) var(--lightense-timing-func);
+  z-index: var(--lightense-z-index);
+  pointer-events: none;
+}
+
+.lightense-target {
+  cursor: zoom-in;
+  transition: transform var(--lightense-duration) var(--lightense-timing-func);
+  pointer-events: auto;
+}
+
+.lightense-open {
+  cursor: zoom-out;
+}
+
+.lightense-transitioning {
+  pointer-events: none;
+}</style></head>
+    <body class="dark:bg-gray-800 bg-white" data-new-gr-c-s-check-loaded="14.1155.0" data-gr-ext-installed="" data-new-gr-c-s-loaded="14.1155.0"><div class="fixed bottom-4 left-4" style="z-index: 999999;">
+        <button id="openProblemModal" class="m-1.5 flex items-center bg-red-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style>
+                <path d="M256 32c14.2 0 27.3 7.5 34.5 19.8l216 368c7.3 12.4 7.3 27.7 .2 40.1S486.3 480 472 480H40c-14.3 0-27.6-7.7-34.7-20.1s-7-27.8 .2-40.1l216-368C228.7 39.5 241.8 32 256 32zm0 128c-13.3 0-24 10.7-24 24V296c0 13.3 10.7 24 24 24s24-10.7 24-24V184c0-13.3-10.7-24-24-24zm32 224a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"></path>
+            </svg>
+        </button>
+        <button id="darkModeToggle" class="m-1.5 flex items-center bg-blue-500 text-white py-2 px-4 rounded-full shadow-lg hover:bg-blue-600 focus:outline-none">
+            <svg id="darkIcon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 384 512">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4c5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6c-96.9 0-175.5-78.8-175.5-176c0-65.8 36-123.1 89.3-153.3c6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"></path>
+            </svg>
+            <!-- SVG icon for light mode (e.g., a sun) -->
+            <svg class="hidden" id="lightIcon" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
+                <!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zm224 0a128 128 0 1 0 -256 0 128 128 0 1 0 256 0z"></path>
+            </svg>
+        </button>
+    </div>
+    <nav id="header" class="fixed w-full z-9 top-0 dark:bg-gray-800 dark:text-white bg-white shadow">
+        <div class="notification-container" style="display: none;">
+    <div class="notification-card dark:bg-gray-800 bg-white">
+      <p class="text-2xl pb-5 text-black dark:text-white">Great news !!!</p>
+      <p class="pb-3 text-black dark:text-white">We are finally unblocked on GitHub! Check it out!<br><br></p>
+      <a href="https://patreon.com/Freedium" target="_blank" title="Patreon">
+      <button class="bg-red-400 mx-1 text-white hover:bg-red-500 font-semibold py-1 px-2 rounded mt-2">
+        Patreon
+      </button>
+    </a>
+    <a href="https://www.buymeacoffee.com/zhymabekroman" target="_blank" title="Buy me a coffee">
+        <button class="bg-orange-500 hover:bg-orange-700 mx-1 text-white font-semibold py-1 px-2 rounded mt-2">
+          Buy me a coffee
+        </button>
+      </a>
+
+      <button class="bg-gray-300 mx-1 hover:bg-gray-400 text-gray-800 font-semibold py-1 px-2 rounded mt-2 close-button">
+        Close
+      </button>
+      <a href="https://codeberg.org/Freedium-cfd/web" target="_blank" title="Codeberg">
+      <button class="bg-blue-800 hover:bg-blue-900 mx-1 text-white font-semibold py-1 px-2 rounded mt-2">
+        Source code - Codeberg
+      </button>
+      </a>
+      <a href="https://github.com/Freedium-cfd/web" target="_blank" title="GitHub"></a>
+      <button class="bg-gray-700 hover:bg-gray-600 mx-1 text-white font-semibold py-1 px-2 rounded mt-2">
+        Source code - GitHub
+      </button>
+      
+    </div>
+  </div>
+
+        
+    
+        <div id="progress" class="h-1 z-20 top-0" style="background: linear-gradient(to right, #4dc0b5 var(--scroll), transparent 0); --scroll: Infinity%;"></div>
+        <div class="w-full md:max-w-4xl mx-auto flex flex-wrap items-center justify-between mt-0 py-3">
+            <div class="pl-4">
+                <a class="text-green-500 text-base no-underline hover:no-underline font-extrabold text-xl" href="https://freedium.cfd/" onclick="navigateToOrigin()">Freedium</a>
+            </div>
+            <div class="block lg:hidden pr-4">
+                <button id="nav-toggle" class="flex items-center px-3 py-2 border rounded text-gray-500 dark:text-white border-gray-600 hover:text-gray-900 dark:hover:text-white hover:border-green-500 appearance-none focus:outline-none">
+                    <svg class="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <title>Menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden lg:block mt-2 lg:mt-0 dark:bg-gray-800 bg-white" id="nav-content">
+                <ul class="list-reset lg:flex justify-end flex-1 items-center">
+                    <li class="mr-3">
+                        <a class="inline-block text-gray-600 dark:text-white no-underline hover:text-gray-900 dark:hover:text-white hover:text-underline py-2 px-4" href="https://codeberg.org/Freedium-cfd/web" target="_blank">Source code</a>
+                    </li>
+                    <li class="mr-3">
+                        <a class="inline-block text-gray-600 dark:text-white no-underline hover:text-gray-900 dark:hover:text-white hover:text-underline py-2 px-4" href="https://freedium-miror-saqg.vercel.app/" target="_blank">Mirror 1</a>
+                    </li>
+                    <li class="mr-3">
+                      <a class="inline-block text-gray-600 dark:text-white no-underline hover:text-gray-900 dark:hover:text-white hover:text-underline py-2 px-4" href="https://freedium-mirror.vercel.app/" target="_blank">Mirror 2</a>
+                  </li>
+                  <li class="mr-3">
+                    <a class="inline-block text-gray-600 dark:text-white no-underline hover:text-gray-900 dark:hover:text-white hover:text-underline py-2 px-4" href="https://romans-status-page.vercel.app/status/freedium" target="_blank">Status page</a>
+                </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container w-full md:max-w-3xl mx-auto pt-20 break-words text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-800">
+    <div class="w-full px-4 md:px-6 text-xl text-gray-800 dark:text-gray-100 leading-normal" style="font-family:Georgia,serif;">
+        <div class="font-sans">
+            <p class="text-base md:text-sm text-green-500 font-bold pb-3">
+                <a href="https://towardsdatascience.com/exploratory-data-analysis-ideas-for-image-classification-d3fc6bbfb2d2#bypass" class="text-sm md:text-sm text-green-500 font-bold no-underline hover:underline ">&lt; Go to the original</a>
+            </p>
+            
+                <img alt="Preview image" style="max-height: 65vh;
+                            width: auto;
+                            margin: auto" loading="eager" role="presentation" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/0_4mAstyWmdNFRFIsX.jpg" class="lightense-target">
+            
+            <h1 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 pt-6 pb-2 text-3xl md:text-4xl">Exploratory Data Analysis Ideas for Image Classification</h1>
+            <h2 class="font-medium font-sans break-normal text-gray-600 dark:text-gray-200 pt-1 text-1xl md:text-1xl">Visualizing Patterns of Image Data</h2>
+        </div>
+        <div class="bg-gray-100 dark:bg-gray-600 border border-gray-300 m-2 mt-5">
+            <div class="flex items-center space-x-4 p-4">
+                <div class="flex-shrink-0">
+                    <a href="https://medium.com/@stereopickle" target="_blank" title="Data Scientist | Designer | Programmer | Researcher | Lifelong Learner" class="block relative">
+                        <img src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/1_yJhrjEnImXHEPwp2RzqiRg.jpg" alt="Eunjoo Byeon" class="rounded-full h-11 w-11 no-lightense">
+                        <div class="absolute bottom-0 right-0 h-3 w-3 border-2 border-white bg-green-500 rounded-full"></div>
+                    </a>
+                </div>
+                <div class="flex-grow">
+                    <a href="https://medium.com/@stereopickle" target="_blank" title="Data Scientist | Designer | Programmer | Researcher | Lifelong Learner" class="block font-semibold text-gray-900 dark:text-white">Eunjoo Byeon</a>
+                    <button class="text-sm text-white bg-green-500 px-3 py-1 rounded-lg mt-1 dark:bg-green-700">
+                        <a href="https://medium.com/@stereopickle" target="_blank" title="Data Scientist | Designer | Programmer | Researcher | Lifelong Learner" class="block text-sm text-white">Follow</a>
+                    </button>
+                </div>
+            </div>
+            <div class="px-4 pb-2">
+                <div class="flex flex-wrap items-center space-x-2 text-sm text-gray-500 dark:text-white">
+                    
+                        <a href="https://medium.com/towards-data-science" title="Your home for data science." target="_blank" class="flex items-center space-x-1">
+                            <img src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/1_CJe3891yB1A1mzMdqemkdg.jpg" alt="Towards Data Science" class="h-4 w-4 rounded-full no-lightense">
+                            <p>Towards Data Science</p>
+                        </a>
+                        <span>·</span>
+                    
+                    <span class="text-gray-500 dark:text-white">~3 min read</span>
+                    <span class="md:inline">·</span>
+                    <span class="text-gray-500 dark:text-white">September 11, 2020 (Updated: December 15, 2021)</span>
+                    <span class="md:inline">·</span>
+                    <span class="text-yellow-500 dark:text-yellow-400">Free: No</span>
+                </div>
+            </div>
+        </div>
+        <div class="main-content mt-8">
+            <p class="leading-8 mt-7">Exploratory data analysis comprises of brief analyses to describe a dataset to guide the modeling process and to answer preliminary questions. For classification problems, this might include looking at the distributions of variables or checking for any meaningful patterns of predictors across different classes. The same problem holds for the classification of image data. We intend to find meaningful information simple operations can give us. Here, I outline a couple of methods we can do to achieve this goal using Chest X-Rays data [<a class="text-base" style="text-decoration: underline;" rel="" title="" href="https://data.mendeley.com/datasets/rscbjbr9sj/3" target="_blank">source</a>]. This dataset consists of X-ray images of pneumonia patients and healthy controls.</p><h3 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-1xl md:text-2xl pt-12">Raw Comparison</h3><p class="leading-8 mt-3">First, we can start by simply looking at a few randomly sampled images.</p><div class="mt-7"><iframe class="lazy entered loaded lightense-target" data-src="https://freedium.cfd/render_iframe/daa38ec44f3736c8fc4f85d520405415" allowfullscreen="" frameborder="0" scrolling="no" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/daa38ec44f3736c8fc4f85d520405415.html" height="845" width="720"></iframe></div><p class="leading-8 mt-7">This step will pull random images from each sub-folders and display them.</p><h3 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-1xl md:text-2xl pt-12">Images as Matrix</h3><p class="leading-8 mt-3">For the next few steps, we will work directly with the pixel values of each image so we can do operations on them. We can accomplish this by converting our images into a Numpy array.</p><div class="mt-7"><iframe class="lazy entered exited loaded lightense-target" data-src="https://freedium.cfd/render_iframe/cacde3b67e5f08cbb6329de5d574ddda" allowfullscreen="" frameborder="0" scrolling="no" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/cacde3b67e5f08cbb6329de5d574ddda.html" width="720" height="523"></iframe></div><p class="leading-8 mt-7">This function will iterate through each file and turn them into an (<em>n, m</em>) matrix, where <em>n </em>is the number of observations and <em>m </em>is the number of pixels.</p><h3 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-1xl md:text-2xl pt-12">Average Image</h3><p class="leading-8 mt-3">Now let's see what the average image looks like for each class. To compute the average image, we can take the average value of each pixel across all observations.</p><div class="mt-7"><iframe class="lazy entered exited loaded lightense-target" data-src="https://freedium.cfd/render_iframe/29bde67684c877df6f89bb8e1145cfed" allowfullscreen="" frameborder="0" scrolling="no" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/29bde67684c877df6f89bb8e1145cfed.html" width="720" height="325"></iframe></div><div class="mt-7"><img alt="None" style="margin: auto;" class="pt-5 lazy entered loaded lightense-target" role="presentation" data-src="https://miro.medium.com/v2/resize:fit:700/1*_FDMPPGRQjATv5ZYdUOgPQ.jpeg" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/1__FDMPPGRQjATv5ZYdUOgPQ.jpg"></div><p class="leading-8 mt-7">We can see from the average image that pneumonia X-rays tend to show higher obstruction around the chest area.</p><h3 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-1xl md:text-2xl pt-12">Contrast Between Average Images</h3><p class="leading-8 mt-3">Using the average images, we can also compute the difference.</p><div class="mt-7"><iframe class="lazy entered loaded lightense-target" data-src="https://freedium.cfd/render_iframe/3b669bf20a9b0bf780efa7ca8254ac5b" allowfullscreen="" frameborder="0" scrolling="no" width="720" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/3b669bf20a9b0bf780efa7ca8254ac5b.html" height="149"></iframe></div><div class="mt-7"><img alt="None" style="margin: auto;" class="pt-5 lazy entered loaded lightense-target" role="presentation" data-src="https://miro.medium.com/v2/resize:fit:700/1*A3YyWSqWrfde1vYOe8-DHw.png" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/1_A3YyWSqWrfde1vYOe8-DHw.png"></div><h3 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-1xl md:text-2xl pt-12">Variability</h3><p class="leading-8 mt-3">Similarly, we can also look at which area is most variable in either class by computing variance or standard deviation instead of the mean. Here the lighter area indicates higher variability. Again we can see that in pneumonia X-rays, there is more variability within the lungs.</p><div class="mt-7"><img alt="None" style="margin: auto;" class="pt-5 lazy entered loaded lightense-target" role="presentation" data-src="https://miro.medium.com/v2/resize:fit:700/1*ba3WiUBYw7iG1U1LWK2rrA.jpeg" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/1_ba3WiUBYw7iG1U1LWK2rrA.jpg"></div><h3 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-1xl md:text-2xl pt-12">Eigenimages</h3><p class="leading-8 mt-3">Lastly, we can use a dimension reduction technique such as the principal component analysis (PCA) to visualize the components that describe each class the best. The eigenimages, which is essentially the eigenvectors (components) of PCA of our image matrix, can be reshaped into a matrix and be plotted. It's also called eigenfaces as this approach was first used for facial recognition research. Here we will visualize the principal components that describe 70% of variability for each class.</p><div class="mt-7"><iframe class="lazy entered loaded lightense-target" data-src="https://freedium.cfd/render_iframe/8b4418daa317f2bd00a2759f308dba49" allowfullscreen="" frameborder="0" scrolling="no" width="720" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/8b4418daa317f2bd00a2759f308dba49.html" height="589"></iframe></div><div class="mt-7"><img alt="None" style="margin: auto;" class="pt-5 lazy entered loaded lightense-target" role="presentation" data-src="https://miro.medium.com/v2/resize:fit:700/1*RQptHvSDxMYobr2Z2bV-Rg.jpeg" data-ll-status="loaded" src="./Exploratory Data Analysis Ideas for Image Classification _ by Eunjoo Byeon _ in Towards Data Science - Freedium_files/1_RQptHvSDxMYobr2Z2bV-Rg.jpg"></div><p class="leading-8 mt-7">You can see that the eigenimages of healthy X-ray images show much more edge definitions around rib cages and organs compared to the pneumonia class.</p><p class="leading-8 mt-7">Today, I briefly showed a few quick and easy methods to find patterns in a simple image dataset. Evidently, these methods are great when working with images that have somewhat regular compositions. In addition to above methods, we can also look at the fisherfaces, and the correlation matrix across pixels for our exploratory analysis of the image data.</p><h4 class="font-bold font-sans break-normal text-gray-900 dark:text-gray-100 text-l md:text-xl pt-8">Data Source</h4>
+<div class="flex border border-gray-300 p-2 mt-7 items-center overflow-hidden"><a rel="noopener follow" href="https://data.mendeley.com/datasets/rscbjbr9sj/3" target="_blank"> <div class="flex flex-row justify-between p-2 overflow-hidden"><div class="flex flex-col justify-center p-2"><h2 class="text-black dark:text-gray-100 text-base font-bold">Large Dataset of Labeled Optical Coherence Tomography (OCT) and Chest X-Ray Images</h2><div class="mt-2 block"><h3 class="text-grey-darker text-sm">Be sure to download the most recent version of this dataset to maintain accuracy. This dataset contains thousands of…</h3></div><div class="mt-5" style=""><p class="text-grey-darker text-xs">mendeley.com</p></div></div><div class="relative flex flew-row h-40 w-72"><div class="lazy absolute inset-0 bg-cover bg-center entered error" data-bg="https://miro.medium.com/v2/resize:fit:320/" data-ll-status="error" style="background-image: url(&quot;https://miro.medium.com/v2/resize:fit:320/&quot;);"></div></div></div> </a></div>
+        </div>
+        <div class="flex flex-wrap gap-2 mt-5">
+            <a title="Data Science" target="_blank" href="https://medium.com/tag/data-science"><span class="text-green-500 bg-green-100 px-2 py-1 rounded-full text-xs dark:bg-green-800 dark:text-gray-100">#data-science</span></a><a title="Python" target="_blank" href="https://medium.com/tag/python"><span class="text-green-500 bg-green-100 px-2 py-1 rounded-full text-xs dark:bg-green-800 dark:text-gray-100">#python</span></a><a title="Image Classification" target="_blank" href="https://medium.com/tag/image-classification"><span class="text-green-500 bg-green-100 px-2 py-1 rounded-full text-xs dark:bg-green-800 dark:text-gray-100">#image-classification</span></a><a title="Data Visualization" target="_blank" href="https://medium.com/tag/data-visualization"><span class="text-green-500 bg-green-100 px-2 py-1 rounded-full text-xs dark:bg-green-800 dark:text-gray-100">#data-visualization</span></a><a title="Data Analysis" target="_blank" href="https://medium.com/tag/data-analysis"><span class="text-green-500 bg-green-100 px-2 py-1 rounded-full text-xs dark:bg-green-800 dark:text-gray-100">#data-analysis</span></a>
+        </div>
+        <div class="container w-full md:max-w-3xl mx-auto pt-12"></div>
+    </div>
+    <style>
+.main-content {
+ letter-spacing: -0.06px;
+ font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+}
+code {
+    background-color: #e3e2e2;
+}
+pre {
+    font-size: 75%;
+    background-color: #e3e2e2;
+}
+p code, ul code, li code {
+    font-size: 75%;
+}
+    </style>
+    <script>
+document.addEventListener('DOMContentLoaded', (event) => {
+  hljs.highlightAll();
+
+  document.querySelectorAll('pre code').forEach((el) => {
+         code = el.textContent;  
+          el = el.parentElement;
+         el.innerHTML = '<button class="hljs-copy p-1 bg-gray-300 dark:bg-black">Copy</button>' + el.innerHTML; // append copy button
+        el.getElementsByClassName('hljs-copy')[0].contentCopy = code;
+         el.getElementsByClassName('hljs-copy')[0].addEventListener("click", function () {
+             this.innerText = 'Copying..';
+             if (!navigator.userAgent.toLowerCase().includes('safari')) {
+                 navigator.clipboard.writeText(this.contentCopy);
+             } else {
+                 prompt("Clipboard (Select: ⌘+a > Copy:⌘+c)", this.contentCopy);
+             }
+             this.innerText = 'Copied!';
+             button = this;
+             setTimeout(function () {
+                 button.innerText = 'Copy';
+             }, 1500)
+         });
+});
+  });
+    </script>
+    <style>
+     .hljs-copy {
+         float: right;
+         cursor: pointer;
+     }
+    </style>
+    <div id="problemModal" class="modal hidden fixed inset-0 w-full h-full flex items-center justify-center overflow-y-auto z-10 bg-black bg-opacity-50">
+        <div class="modal-container w-11/12 md:max-w-xl mx-auto rounded shadow-lg max-h-screen">
+            <div class="modal-content bg-white dark:bg-gray-800 dark:text-white my-8 py-4 text-left px-6">
+                <h1 class="text-3xl font-bold">Reporting a Problem</h1>
+                <div class="mt-3">
+                    <p>Sometimes we have problems displaying some Medium posts.<br><br></p>
+                    <p>If you have a problem that some images aren't loading - try using VPN. Probably you have problem with access to Medium CDN (or fucking Cloudflare's bot detection algorithms are blocking you).</p>
+                </div>
+                <form action="https://freedium.cfd/https://towardsdatascience.com/exploratory-data-analysis-ideas-for-image-classification-d3fc6bbfb2d2#" method="POST" class="mt-4" id="problem-form">
+                    <div class="mb-4">
+                        <label for="problem-description" class="block text-gray-700 dark:text-white font-bold mb-2">Problem Description</label>
+                        <textarea id="problem-description" name="problem-description" placeholder="Describe your problem here..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" rows="4" required=""></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="m-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Submit</button>
+                        <button type="button" class="m-2 modal-close bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    tailwind.config = {
+        darkMode: 'class',
+    }
+
+  function navigateToOrigin() {
+    window.location.href = window.location.origin;
+  }
+if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  // document.documentElement.classList.add('dark');
+  document.getElementById('darkIcon').classList.remove('hidden');
+  document.getElementById('lightIcon').classList.add('hidden')
+} else {
+  // document.documentElement.classList.remove('dark')
+  document.getElementById('lightIcon').classList.remove('hidden');
+  document.getElementById('darkIcon').classList.add('hidden');
+}
+
+  document.getElementById('darkModeToggle').addEventListener('click', function() {
+    
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+  document.documentElement.classList.remove('dark');
+  document.getElementById('darkIcon').classList.add('hidden');
+  document.getElementById('lightIcon').classList.remove('hidden')
+  document.documentElement.style.cssText = "--lightense-backdrop: white;";
+  localStorage.setItem("theme", "light")
+} else {
+  document.documentElement.classList.add('dark')
+  document.getElementById('lightIcon').classList.add('hidden');
+  document.getElementById('darkIcon').classList.remove('hidden');
+  document.documentElement.style.cssText = "--lightense-backdrop: black;";
+  localStorage.setItem("theme", "dark")
+}
+});
+    </script>
+    <script>
+                const openModalButton = document.getElementById('openProblemModal');
+                const closeModalButton = document.querySelector('.modal-close');
+                const modal = document.getElementById('problemModal');
+                const problemDescriptionInput = document.getElementById('problem-description');
+                const submitButton = document.querySelector('form button');
+                const body = document.body;
+
+                openModalButton.addEventListener('click', () => {
+                    body.classList.add('overflow-hidden'); // Prevent scrolling on the body
+            modal.classList.remove('hidden');
+        });
+
+        closeModalButton.addEventListener('click', () => {
+            body.classList.remove('overflow-hidden'); // Re-enable scrolling on the body
+            modal.classList.add('hidden');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                body.classList.remove('overflow-hidden');
+            }
+        });
+
+        function navigateNoCache() {
+                window.location.href = `/render-no-cache${window.location.pathname}`;
+        }
+
+        const submitForm = async (event) => {
+            event.preventDefault();
+
+            console.log('Form submiting is started!');
+            submitButton.disabled = true;
+
+            // Get the problem description from the input field
+            const problemDescription = problemDescriptionInput.value;
+            const currentPage = window.location.href;
+
+            try {
+                // Send a POST request to the "report-problem" API endpoint
+                const response = await fetch('/report-problem', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ description: problemDescription, page: currentPage }),
+                });
+
+                if (response.ok) {
+                    // Report submitted successfully, you can add a success message or further actions here
+                    console.log('Problem report submitted successfully.');
+                    modal.classList.add('hidden'); // Close the modal
+                } else {
+                    // Handle errors, such as non-200 responses
+                    console.error('Failed to submit problem report.');
+                    submitButton.disabled = false;
+                }
+            } catch (error) {
+                // Handle network errors or other exceptions
+                console.error('An error occurred:', error);
+                submitButton.disabled = false;
+            }
+        };
+
+        document.getElementById('problem-form').onsubmit = submitForm;
+    </script>
+    <script>
+const h = document.documentElement, b = document.body;
+const st = 'scrollTop';
+const sh = 'scrollHeight';
+const progress = document.getElementById('progress');
+const header = document.getElementById('header');
+const navcontent = document.getElementById('nav-content');
+
+document.addEventListener('scroll', function () {
+  /* Refresh scroll % width */
+  const scroll = (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+  progress.style.setProperty('--scroll', scroll + '%');
+
+  /* Apply classes for slide in bar */
+  const shouldAddClass = window.scrollY > 10;
+});
+
+		document.getElementById('nav-toggle').onclick = function() {
+			document.getElementById("nav-content").classList.toggle("hidden");
+		}
+
+  window.addEventListener('load', function () {
+       Lightense('img:not(.no-lightense)');
+  }, false);
+    </script>
+
+
+<script>
+            var lazyLoadInstance = new LazyLoad({
+                    callback_loaded: function(element) {
+        Lightense(element);
+    }, 
+    callback_error: (img) => {
+        console.log(img);
+        if (img.hasAttribute("data-src")) {
+            if (img.attributes["data-src"].value.startsWith("https://miro.medium.com/v2/")) {
+            img.setAttribute("src", img.attributes["data-src"].value.replace("https://miro.medium.com/v2/", "https://freedium.cfd/@miro/v2/" ));
+            }
+        }
+  }
+});
+</script>
+<script>
+    function navigateToOrigin() {
+      window.location.href = window.location.origin;
+    }
+          </script>
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const notificationContainer = document.querySelector('.notification-container');
+        const closeButton = document.querySelector('.close-button');
+  
+        function showNotification() {
+          if (!localStorage.getItem('showNotification-update46-block')) {
+                  notificationContainer.style.display = 'block';
+          }
+        }
+  
+        // Hide the notification
+        function hideNotification() {
+          localStorage.setItem('showNotification-update46-block', 'false');
+          notificationContainer.style.display = 'none';
+        }
+  
+        // Close button functionality
+        closeButton.addEventListener('click', () => {
+          hideNotification();
+        });
+  
+        showNotification();
+      });
+    </script>
+  </div><div class="lightense-backdrop"></div></body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
